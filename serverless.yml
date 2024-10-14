@@ -1,0 +1,59 @@
+service: serverless-sql-auth-crud
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'us-east-1'}
+  environment:
+    DB_HOST: ${ssm:/db-host}
+    DB_USER: ${ssm:/db-user}
+    DB_PASSWORD: ${ssm:/db-password}
+    DB_NAME: ${ssm:/db-name}
+    JWT_SECRET: ${ssm:/jwt-secret}
+
+functions:
+  register:
+    handler: src/handlers/auth.register
+    events:
+      - http:
+          path: auth/register
+          method: post
+  login:
+    handler: src/handlers/auth.login
+    events:
+      - http:
+          path: auth/login
+          method: post
+  getAllUsers:
+    handler: src/handlers/user.getAllUsers
+    events:
+      - http:
+          path: users
+          method: get
+          authorizer: src/middleware/auth.authorize
+  getUserById:
+    handler: src/handlers/user.getUserById
+    events:
+      - http:
+          path: users/{id}
+          method: get
+          authorizer: src/middleware/auth.authorize
+  updateUser:
+    handler: src/handlers/user.updateUser
+    events:
+      - http:
+          path: users/{id}
+          method: put
+          authorizer: src/middleware/auth.authorize
+  deleteUser:
+    handler: src/handlers/user.deleteUser
+    events:
+      - http:
+          path: users/{id}
+          method: delete
+          authorizer: src/middleware/auth.authorize
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin

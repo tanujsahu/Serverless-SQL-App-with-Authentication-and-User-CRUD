@@ -1,0 +1,25 @@
+{
+  "name": "serverless-sql-auth-crud",
+  "version": "1.0.0",
+  "description": "Serverless SQL app with authentication and user CRUD using MySQL",
+  "main": "handler.js",
+  "scripts": {
+    "start": "serverless offline",
+    "deploy": "serverless deploy",
+    "test": "jest"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "serverless-mysql": "^1.5.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.8",
+    "babel-jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "serverless": "^3.30.1",
+    "serverless-dotenv-plugin": "^4.0.2",
+    "serverless-offline": "^12.0.4"
+  }
+}
